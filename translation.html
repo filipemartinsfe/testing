@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <span class="text" data-key="title.cenas"></span>
+  <span class="text" data-key="title.coisas"></span>
+  <span class="text" data-key="title.coisas"></span>
+
+  <button class="btn" data-language="pt">PT</button>
+  <button class="btn" data-language="en">EN</button>
+  <button class="btn" data-language="fr">FR</button>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+// Language Files 
+const lang = {
+  pt: 'json.json',
+  en: 'json1.json',
+  fr: 'json2.json',
+};
+
+// Language Change Trigger
+$('.btn').click(({ target }) => {
+  fetchData(lang[target.getAttribute('data-language')]);
+});
+
+// Language Getter, default language lang.en
+const fetchData = (url = lang.en) => fetch(url)
+  .then(resp => resp.json())
+  .then((data) => {
+    let n = 0;
+    $('*[data-key]').each((_, element) => {
+      const translation = element.getAttribute('data-key').split('.')
+        .reduce((value, key) => value[key] || {}, data);
+
+      element.innerHTML = typeof translation === 'string' ? translation : 'NOPE';
+    });
+  })
+  .catch(function(error) {
+    console.log(JSON.stringify(error));
+  });
+
+fetchData();
+
+</script>
+
+</body>
+</html>
