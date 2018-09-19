@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <div>
+    <div>
+      <div>
+        <p><span>FIVE</span> <span data-key="title.cenas"></span></p>
+      </div>
+    </div>
+  </div>
+  <span class="text" data-key="title.cenas"></span>
+  <span class="text" data-key="title.coisas"></span>
+  <span class="text" data-key="title.coisas"></span>
+
+  <button class="btn" data-language="pt">PT</button>
+  <button class="btn" data-language="en">EN</button>
+  <button class="btn" data-language="fr">FR</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+const lang = {
+  pt: 'json.json',
+  en: 'json1.json',
+  fr: 'json2.json',
+};
+
+// let url = 'json.json';
+$('.btn').click(({ target }) => {
+  debugger
+  // lang[e.getAttribute('data-language')] || lang.pt;
+  // const selectedLang = 'lang.' + e.currentTarget.classList.value.split('--')[1];
+
+  // switch(selectedLang) {
+  //   case 'lang.en':
+  //     console.log(lang.en);
+  //     break;
+  //   case 'lang.pt': 
+  //     console.log(lang.pt);
+  //     break;
+  //   case 'lang.fr':
+  //     console.log(lang.fr);
+  //     break;
+  //   default:
+  //   console.log(lang.pt);
+  // }
+
+  // if (e.currentTarget.classList.contains('btn--pt')) {
+  //   url = lang.pt;
+  // } else if (e.currentTarget.classList.contains('btn--fr')) {
+  //   url = lang.fr;
+  // } else {
+  //   url = lang.en;
+  // }
+
+  fetchData(lang[target.getAttribute('data-language')]);
+});
+
+const fetchData = (url = lang.pt) => fetch(url)
+  .then(resp => resp.json())
+  .then((data) => {
+    let n = 0;
+    $('*[data-key]').each((_, element) => {
+      const translation = element.getAttribute('data-key').split('.')
+        .reduce((value, key) => value[key] || {}, data);
+
+      element.innerHTML = typeof translation === 'string' ? translation : 'NOPE';
+    });
+  })
+  .catch(function(error) {
+    console.log(JSON.stringify(error));
+  });
+
+fetchData();
+
+
+
+// EXAMPLES REDUCE
+const a = [1,2,3,4,5];
+let sumArray = a.reduce((accumulator, item) => accumulator + item, 0);
+console.log(sumArray); // 15
+
+const b = {
+  a: 1,
+  b: 2,
+  c: 3,
+  d: 4,
+  e: 5,
+};
+const bArray = Object.values(b);
+let sumObjToArray = a.reduce((accumulator, item) => accumulator + item, 0);
+console.log(sumObjToArray); // 15
+
+const c = {
+  11: 1,
+  12: 2,
+  13: 3,
+  14: 4,
+  15: 5,
+};
+const cArray = Object.entries(c);  
+let sum;
+let finalValue = 0;
+
+// Using ForEach
+cArray.forEach((array) => {
+  sum = array.reduce((a, b) => Number(a + b), 0)
+  finalValue += parseInt(sum)
+});
+console.log(finalValue)
+
+// Using ForLoop
+let sum1;
+let finalValue1 = 0;
+for (var i = 0, len = cArray.length; i < len; i++) {
+  sum1 = cArray[i].reduce((a, b) => Number(a + b), 0)
+  finalValue1 += parseInt(sum1)
+}
+console.log(finalValue1);
+
+const d = {
+  11: 1,
+  12: 2,
+  13: 3,
+  14: 4,
+  15: 5,
+};
+let  sumD = Object.keys(d).reduce((accumulator, item) => Number(accumulator) + Number(item) + Number(d[item]), 0);
+console.log(sumD); // 80
+
+// Another Examples Get all people from the object
+const data = [
+  {a: ['filipe','tiago','cesar','sergio','vasco','claudia'], b: 'live', c: 'Porto'}, 
+  {a: ['filipe', 'claudia'], b: 'studied', c: 'Vila Real'}, 
+  {a: ['cesar', 'tiago', 'vasco', 'sergio'], b: 'studied', c: 'Porto'}
+];
+
+const people = data.reduce((accumulator, item) => {
+  item.a.forEach( person => {
+    accumulator.push(person);
+  })
+  return accumulator;
+}, [])
+console.log('----- accumulator -----');
+console.log(people);
+
+
+var unique = people.filter((n, i, a) =>{
+  console.log('----- filter parameters -----');
+  console.log(n,i,a);
+  return a.indexOf(n) === i; 
+});
+console.log('----- unique names -----')
+console.log(unique);
+
+</script>
+
+</body>
+</html>
