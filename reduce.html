@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <!-- <div class="cla" style="height:800px;width:100vw; background:red;"></div>
+  <div class="cla" style="height:800px;width:100vw; background:green;"></div>
+  <div class="cla" style="height:800px;width:100vw; background:black;"></div>
+  <div class="cla" style="height:800px;width:100vw; background:yellow;"></div> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+  // scroll top in all browsers at all times.
+  // r(function(){
+  //   window.scrollTo(0,0);
+  // });
+  // function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
+
+
+
+
+  // arr = [];
+  //   for (var i = 0; i < this.length; i++){
+  //     console.log(callback(this))
+  //       arr.push(callback(this[i], i, this))};
+  //   return arr;
+
+// EXAMPLES REDUCE
+const a = [1,2,3,4,5];
+let sumArray = a.reduce((accumulator, item) => accumulator + item, 0);
+console.log(sumArray); // 15
+
+const b = {
+  a: 1,
+  b: 2,
+  c: 3,
+  d: 4,
+  e: 5,
+};
+const bArray = Object.values(b);
+let sumObjToArray = a.reduce((accumulator, item) => accumulator + item, 0);
+console.log(sumObjToArray); // 15
+
+const c = {
+  11: 1,
+  12: 2,
+  13: 3,
+  14: 4,
+  15: 5,
+};
+const cArray = Object.entries(c);  
+let sum;
+let finalValue = 0;
+
+// Using ForEach
+cArray.forEach((array) => {
+  sum = array.reduce((a, b) => Number(a + b), 0)
+  finalValue += parseInt(sum)
+});
+console.log(finalValue)
+
+// Using ForLoop
+let sum1;
+let finalValue1 = 0;
+for (var i = 0, len = cArray.length; i < len; i++) {
+  sum1 = cArray[i].reduce((a, b) => Number(a + b), 0)
+  finalValue1 += parseInt(sum1)
+}
+console.log(finalValue1);
+
+const d = {
+  11: 1,
+  12: 2,
+  13: 3,
+  14: 4,
+  15: 5,
+};
+let  sumD = Object.keys(d).reduce((accumulator, item) => Number(accumulator) + Number(item) + Number(d[item]), 0);
+console.log(sumD); // 80
+
+// Another Examples Get all people from the object
+const data = [
+  {a: ['filipe','tiago','cesar','sergio','vasco','claudia'], b: 'live', c: 'Porto'}, 
+  {a: ['filipe', 'claudia'], b: 'studied', c: 'Vila Real'}, 
+  {a: ['cesar', 'tiago', 'vasco', 'sergio'], b: 'studied', c: 'Porto'}
+];
+
+const people = data.reduce((accumulator, item) => {
+  item.a.forEach( person => {
+    accumulator.push(person);
+  })
+  return accumulator;
+}, [])
+console.log('----- accumulator -----');
+console.log(people);
+
+
+var unique = people.filter((n, i, a) =>{
+  console.log('----- filter parameters -----');
+  console.log(n,i,a);
+  return a.indexOf(n) === i; 
+});
+console.log('----- unique names -----')
+console.log(unique);
+
+// Old Map Done by me without help
+// Array.prototype.map = function (callback) {
+//     arr = [];
+//     const getBack = this.reduce((accumulator, item, index) => {
+//       arr = accumulator;
+//       arr.push(callback(this[index], index, this));
+//       return accumulator;
+//     }, []);
+//     return getBack;
+// }
+
+
+// const numeros = [1,2,3];
+// const resultado = numeros
+//   .map(n => `${n+3}`)
+//   // .map(n => 1 + n)
+//   // .filter(n => +(n.substr(1)) % 2);
+// console.log('Resultado', resultado);
+
+
+Array.prototype.map = function (callback) {
+  return this.reduce((accumulator, item, index) => ([
+    ...accumulator,
+    callback(item, index, this),
+  ]), []);
+};
+
+Array.prototype.filter = function (callback) {
+  console.log(callback);
+  return this.reduce((accumulator, item, index) => {
+    const shouldBePutInArray = callback(item, index, this);
+        
+    // if (shouldBePutInArray) {
+    //   return [...accumulator , item] 
+    // } 
+    // return accumulator;
+
+    return shouldBePutInArray ? [ ...accumulator, item ] : accumulator;
+      
+    // return [
+    //   ...accumulator,
+    //   shouldBePutInArray ? item :
+    // ];
+  }, []);
+};
+
+const numeros = [1,2,3,4,5];
+const resultado = numeros
+  .map(n => `${n}`)
+  .map(n => 1 + n)
+  .filter(n => +(n.substr(1)) % 2);
+console.log('Resultado', resultado);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <style>
+  .travel > span {
+    font-weight:bold;
+  }
+  </style>
+</head>
+<body>
+
+<script>
+  // Array with Objects
+  const travel = [
+    { from: 'New York', to: 'Dhaka', distance: 12654},
+    { from: 'Sydney', to: 'chittagong', distance: 8858},
+    { from: 'Porto', to: 'Lisbon', distance: 670},
+    { from: 'Sevilla', to: 'Faro', distance: 1809},
+    { from: 'Rio de Janeiro', to: 'Paris', distance: 18858},
+    { from: 'Eidhoven', to: 'Zagreb', distance: 5670}
+  ]
+  
+  // Object
+  const companyName = {
+    tap: 'TAP AIR Portugal',
+    ryanair: 'Ryanair',
+    easyjet: 'EasyJet',
+  }
+
+  console.log('Travel: ', travel);
+
+  const mappedTravelUnderTenKey = travel
+    .map(item => ({ ...item, distance: Math.round(item.distance * 1.32), company: 'Ryanair',}))
+    .filter(item => item.distance < 10000)
+
+  console.log('mappedTravelUnderTenKey: ', mappedTravelUnderTenKey);
+
+  const CompanyDependingOnDistance = travel
+    .map(item => ({ ...item, company: (item.distance < 10000) ? companyName.ryanair : companyName.tap}))
+  console.log('CompanyDependingOnDistance: ', CompanyDependingOnDistance)
+
+  const justRyanair = CompanyDependingOnDistance
+    .filter(n => n.company === companyName.ryanair);
+  console.log('justRyanair: ', justRyanair);
+
+  const justTap = CompanyDependingOnDistance
+    .filter(n => n.company === companyName.tap);
+  console.log('justTap: ', justTap);
+
+// const original = Array.prototype.forEach;
+// Array.prototype.forEach = function(_, i) {
+//   console.log(_, i);
+//   return original(_, i);
+// };
+
+  travel.forEach((_, i) => {
+    const div = document.createElement('div');
+    div.innerHTML = `<div class="travel">
+    My plane travels fro
+    <span class="from" data-from=''></span>
+    to
+    <span class="to" data-to=''></span>
+    the distance is
+    <span class="distance" data-distance=''></span>km
+    and the company name is
+    <span class="company" data-company=''></span>
+    </div>`
+    document.body.appendChild(div);
+    
+    document.getElementsByClassName('from')[i].innerHTML = CompanyDependingOnDistance[i].from;
+    document.getElementsByClassName('to')[i].innerHTML = CompanyDependingOnDistance[i].to;
+    document.getElementsByClassName('distance')[i].innerHTML = CompanyDependingOnDistance[i].distance;
+    document.getElementsByClassName('company')[i].innerHTML = CompanyDependingOnDistance[i].company;
+  });
+
+  // // Compare Values Inside Array of Objects
+  // function compare(a, b) {
+  //   // Use toUpperCase() to ignore character casing
+  //   const fromA = a.from.toUpperCase();
+  //   const fromB = b.from.toUpperCase();
+    
+  //   let comparison = 0;
+  //   if (fromA > fromB) {
+  //     comparison = 1;
+  //   } else if (fromA < fromB) {
+  //     comparison = -1;
+  //   }
+  //   return comparison;
+  // }
+  // const sortedOutByFrom = travel.sort(compare);
+  // console.log('sortedOutByFrom: ', sortedOutByFrom);
+
+  // Reduce departures
+  const departures = travel
+    .reduce((accumulator, item, index) => {
+        accumulator.push(item.from);
+      return accumulator;
+    }, []);
+  console.log('Departure: ', departures);
+
+  // Sort departures
+  const sortDepartures = departures.sort();
+  console.log('sortDepartures', sortDepartures);
+
+  // Reduce destinations
+  const destinations = travel
+    .reduce((accumulator, item, index) => {
+      accumulator.push(item.to);
+      return accumulator;
+    }, []);
+  console.log('Destination: ', destinations);
+
+  // Reduce distance
+  const distance = travel
+    .reduce((accumulator, item, index) => {
+      accumulator.push(item.distance);
+      return accumulator;
+    }, []);
+  console.log('Distance: ', distance);
+
+  // Reduce object1
+  const object1 = travel
+    .reduce((accumulator, item, index) => {
+      accumulator.push(item.from, item.to, item.distance);
+      return accumulator;
+    }, [])
+    .slice(0, Object.keys(travel[0]).length);
+    
+    console.log('Object 1: ', object1);
+
+    console.log('TravelIsImmutable: ', travel);
+
+  </script>
+
+  </body>
+  </html>

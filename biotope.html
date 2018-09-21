@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+<script>
+  console.log('<variables>');
+  const arrNumber = [1,2,3,4,5];
+  console.log('arrNumber: ', arrNumber);
+
+  const arrAlphabetic = ['a','b','c','e','d'];
+  console.log('arrAlphabetic: ', arrAlphabetic)
+  console.log('</variables>');
+
+  console.log('');
+
+  console.log('<testing>');
+  const odd = arrNumber.filter(n => n % 2);
+  console.log('odd: ', odd);
+
+  const even = arrNumber.filter(n => (n % 2 === 0));
+  console.log('even: ', even);
+
+  const addPrefix = arrAlphabetic.map(n => `${`letter-`+n}`)
+  console.log('addPrefix: ', addPrefix);
+
+  const FirstThreeElements = arrNumber.slice(0,3);
+  console.log('FirstThreeElements: ',FirstThreeElements);
+
+  const reversed = arrAlphabetic.reverse();
+  console.log('Reversed: ', reversed);
+
+  const sort = arrAlphabetic.sort();
+  console.log('Sort: ', sort);
+
+  const biggerThanTwo = arrNumber.find(n => n > 2)
+  console.log('biggerThanTwo: ', biggerThanTwo);
+
+  const MathMaxValueArray = arrNumber.reduce((accumulator, item, index) => {
+    return accumulator + item;
+  });
+  console.log('MathMaxValueArray: ', MathMaxValueArray);
+
+  const bothArraysTogether = arrNumber.concat(arrAlphabetic);
+  console.log('bothArraysTogether: ', bothArraysTogether);
+
+  const allToString = bothArraysTogether.map(n => `${n}`);
+  console.log('allToString: ', allToString);
+
+  const createString = bothArraysTogether.toString();
+  console.log('createString: ', createString);
+
+  const allToNumber = bothArraysTogether;
+  console.log('allToNumber: THIS NEEDS A FIX', allToNumber);
+
+  console.log('</testing>');
+
+</script>
+
+</body>
+</html>
